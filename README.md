@@ -22,4 +22,13 @@ Mūsu programmā šī bibliotēka tiek izmantota, lai uzlabotu meklēšanas ātr
 
 
 ## Programmatūras izmantošanas metodes
+Mūsu programmatūra ir izstrādāta kā komandrindas interfeiss (CLI), kas nodrošina interaktīvu lietotāja saskarni datu iegūšanai no vietnes. Tas ir līdzeklis, lai mijiedarbotos ar programmatūru un izmantojot komandas, katra komanda ir formatēta kā teksta rindiņa. 
+### Interaktīva izvēlne
+Programma sākas ar izvēlnes attēlošanu, kas ļauj lietotājam izvēlēties vienu no šādām darbībām:
+1-Meklēt grāmatas pēc kategorijas;
+2-Filtrēt grāmatas pēc reitinga;
+3-Filtrēt grāmatas pēc cenas;
+4-Meklēt grāmatu pēc nosaukuma;
+5-Iziet no programmas
+Lietotājam ir jāievada attiecīgais skaitlis, kurš atbilst vēlamajai darbībai. Kad darbība ir izvēlēta, programma attiecīgi to izpilda.
 
