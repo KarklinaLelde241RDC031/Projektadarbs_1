@@ -64,23 +64,49 @@ def search_by_rating():
             title = book.h3.a['title']
             print(f" - {title}")
 
+def search_by_price():
+    try:
+        min_price = float(input("Min cena: ").strip())
+        max_price = float(input("Max cena: ").strip())
+    except ValueError:
+        print("Nederīga cena.")
+        return
+
+    print(f"\nGrāmatas cenā starp £{min_price} un £{max_price}:")
+    url = BASE_URL + 'catalogue/page-1.html'
+    soup = get_soup(url)
+    books = soup.find_all('article', class_='product_pod')
+    for book in books:
+        price_tag = book.find('p', class_='price_color')
+        price_text = price_tag.text.strip().replace('£', '').replace('Â', '').replace('\xa0', '')
+        try:
+            price = float(price_text)
+        except ValueError:
+            continue
+        if min_price <= price <= max_price:
+            title = book.h3.a['title']
+            print(f" - {title} (£{price})")
+
 def main():
     while True:
         print("\nMetodes:")
-        print("1. Meklēt pēc kategorijas")
-        print("2. Meklēt pēc reitinga")
-        print("5. Beigt darbu")
-        choice = input("Izvēlieties darbību (1, 2, 5): ").strip()
+        print("1. Kategorijas")
+        print("2. Reitings")
+        print("3. Cena")
+        print("4. Beigt darbu")
+        choice = input("Izvēlieties darbību (1, 2, 3, 4): ").strip()
 
         if choice == '1':
             search_by_category()
         elif choice == '2':
             search_by_rating()
-        elif choice == '5':
+        elif choice == '3':
+            search_by_price()
+        elif choice == '4':
             print("Darbs pārtraukts.")
             break
         else:
             print("Nederīga izvēle.")
 
-if __name__ == "__main__":
+if _name_ == "_main_":
     main()
