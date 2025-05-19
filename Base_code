@@ -66,124 +66,124 @@ def search_by_category(): #funkcija, kas meklē pēc kategorijas
         print("Ievadiet ciparu.")  # kļūda, ja nav ievadīts cipars vai cipars, kas nav sarakstā
 
 def search_by_rating(): #meklē pēc reitinga
-    categories = get_categories()
+    categories = get_categories() # iegūst pieejamo grāmatu kategoriju
     print("\nPieejamās kategorijas:")
     for i, (name, _) in categories.items():
-        print(f"{i}. {name}")
+        print(f"{i}. {name}") # izdrukā numuru un kategorijas nosaukumu
     try:
-        selected = int(input("\nIzvēlieties kategorijas numuru: ").strip())  # izvēlies kategoriju
-        name, url = categories.get(selected, (None, None)) #iegust
-        if not name:
+        selected = int(input("\nIzvēlieties kategorijas numuru: ").strip())  # izvēlies kategorijas numuru
+        name, url = categories.get(selected, (None, None)) # no vārdnīcas iegūst izvēlētās kat. nosaukumu un URL
+        if not name: # ja ievadīts nederīgs numurs (nav vārdnīcā), izvada kļūdas ziņojumu
             print("Nederīgs kategorijas numurs.")
             return
 
         try:
             target_rating = int(input("Ievadiet reitingu (1-5): ").strip())  # izvēlēties cik lielu reitingu meklēt
-            if target_rating not in range(1, 6):
-                raise ValueError
+            if target_rating not in range(1, 6): # parbauda vai reitings ir derīgs (1-5)
+                raise ValueError # nesakritības gadījumā izsauc kļūdu
         except ValueError:
             print("Ievadiet skaitli no 1 līdz 5.")
             return
 
-        print(f"\nGrāmatas ar {target_rating} zvaigznēm kategorijā '{name}':")
+        print(f"\nGrāmatas ar {target_rating} zvaigznēm kategorijā '{name}':") # izvada nosaukumus grāmatām sarakstam
         books = get_books_from_category(url)  # meklēt tikai izvēlētajā kategorijā
-        found = False
-        for book in books:
-            rating_class = book.p['class'][1]  # atrast reitingu, kas izvēlēts
-            rating = rating_to_number(rating_class)
-            if rating == target_rating:
-                title = book.h3.a['title']
-                print(f" - {title}")
-                found = True
-        if not found:
-            print("Nav atrastu grāmatu ar šo reitingu šajā kategorijā.")
+        found = False # mainīgais, kas palīdz saprast, vai vispār kāda grāmata ir atrasta
+        for book in books: # iet cauri visām kategorijā atrastajām grāmatām
+            rating_class = book.p['class'][1]  # no <p> izvelk reitingu tekstā, piem., "three"
+            rating = rating_to_number(rating_class) # konvertē tekstuālo reitingu uz skaitli
+            if rating == target_rating: # ja reitings atbilst lietotāja ievadītajam
+                title = book.h3.a['title'] # iegūst grāmatas nosaukumu no HTML
+                print(f" - {title}") # izdrukā nosaukumu
+                found = True # parāda, ka ir atrasta vismaz viena grāmata
+        if not found: # ja neviena grāmata nav atrasta ar šo reitingu izvada sekojošo
+            print("Nav atrastu grāmatu ar šo reitingu šajā kategorijā.") 
 
     except ValueError:
-        print("Ievadiet ciparu.")
+        print("Ievadiet ciparu.") # jāievada derīgs cipars
 
-def search_by_price():
+def search_by_price(): # funkcija, kas meklē grāmatas pēc cenu diapazona
     try:
         min_price = float(input("Min cena: ").strip())  # ievada minimālo cenu
         max_price = float(input("Max cena: ").strip())  # ievada maksimālo cenu
-    except ValueError:
-        print("Nederīga cena.")
-        return
+    except ValueError: # ja ievadītā vērtība nav skaitlis
+        print("Nederīga cena.") # izvada kļūdas paziņojumu
+        return # pārtrauc funkcijas izpildi
 
-    print(f"\nGrāmatas cenā starp £{min_price} un £{max_price}:")
-    categories = get_categories()
-    for name, url in categories.values():
-        books = get_books_from_category(url)
-        for book in books:
+    print(f"\nGrāmatas cenā starp £{min_price} un £{max_price}:") # parāda meklēšanas nosacījumus
+    categories = get_categories() # iegūst visas kategorijas no vietnes kās vārdnīcu
+    for name, url in categories.values(): # iterē caur katru kategoriju (nosaukums un URL)
+        books = get_books_from_category(url) # iegūst visas gramatas no šīs kategorijas
+        for book in books: # iet cauri katrai grāmatai lapā
             price_tag = book.find('p', class_='price_color')  # atrast cenu
-            price_text = price_tag.text.encode('ascii', 'ignore').decode().replace('£', '').strip()  # iztīrīt simbolus
+            price_text = price_tag.text.encode('ascii', 'ignore').decode().replace('£', '').strip()  # noņem simbolus un atstarpes
             try:
-                price = float(price_text)
-            except ValueError:
-                continue
-            if min_price <= price <= max_price:
-                title = book.h3.a['title']
-                print(f" - {title} (£{price}) [{name}]")  # izvada arī kategoriju
+                price = float(price_text) # konvertē cenu uz float skaitli
+            except ValueError: # ja cena nav konvertējama
+                continue # pāriet pie nākamās grāmatas
+            if min_price <= price <= max_price: # ja cena atrodas norādītajā diapazonā
+                title = book.h3.a['title'] # iegūst grāmatas nosaukumu
+                print(f" - {title} (£{price}) [{name}]")  # izvada nosaukumu, cenu un kategoriju
 
-def search_by_name():
+def search_by_name(): # meklē grāmatas pēc nosaukuma
     search_term = input("Ievadiet grāmatas nosaukumu (vai daļu no tā): ").strip().lower()  # ievada meklējamo nosaukumu
     max_pages = 50  # Books.toscrape ir 50 katalogu lappuses
-    found_books = []
+    found_books = [] # saglabā atrastās grāmatas nosaukumu
 
-    def fetch_and_search(page):
-        url = BASE_URL + f'catalogue/page-{page}.html'
+    def fetch_and_search(page): # pārbauda vienu konkrētu lappusi
+        url = BASE_URL + f'catalogue/page-{page}.html' #veido lappuses URL pēc numura
         try:
-            res = requests.get(url, timeout=5)
-            if res.status_code != 200:
+            res = requests.get(url, timeout=5) # sūta HTTP pieprasījumu ar 5 sekunžu limitu
+            if res.status_code != 200: # ja lapa nav veiksmīgi ielādēta
                 return []
-            soup = BeautifulSoup(res.text, 'html.parser')
-            books = soup.find_all('article', class_='product_pod')
-            matches = []
+            soup = BeautifulSoup(res.text, 'html.parser') # analizē HTML saturu
+            books = soup.find_all('article', class_='product_pod') # atrod visas grāmatas lappusē
+            matches = [] # saglabā atbilstības konkrētajā lapā
             for book in books:
-                title = book.h3.a['title']
+                title = book.h3.a['title'] # iegūstam grāmatas nosaukumu
                 if search_term in title.lower():  # pārbauda, vai ievadītā frāze atrodas nosaukumā
-                    matches.append(title)
-            return matches
-        except requests.RequestException:
-            return []  # ja netiek izvadīts nekas
+                    matches.append(title) # pievieno nosaukumu rezultātiem
+            return matches # izvada atrastos nosaukumus
+        except requests.RequestException: # ja ir kļūda ar pieprasījumu
+            return []  # atgriež tukšu sarakstu
 
     with concurrent.futures.ThreadPoolExecutor() as executor:  # meklē lappuses paralēli, izdarot darbu ātrāk
-        futures = [executor.submit(fetch_and_search, page) for page in range(1, max_pages + 1)]
-        for future in concurrent.futures.as_completed(futures):
-            found_books.extend(future.result())
+        futures = [executor.submit(fetch_and_search, page) for page in range(1, max_pages + 1)] # izveido uzdevumu sarakstu katrai lpp
+        for future in concurrent.futures.as_completed(futures): # kad katras uzdevums pabeigts
+            found_books.extend(future.result()) # pievieno atrastos nosaukumus galvenajam sarakstam
 
-    if found_books:
+    if found_books: # ja ir atrastas grāmatas
         print("\nAtrastas grāmatas:")
         for title in found_books:
-            print(f" - {title}")
+            print(f" - {title}") # izvada katru atrasto nosaukumu
     else:
-        print("Netika atrasta neviena grāmata ar šādu nosaukumu.")
+        print("Netika atrasta neviena grāmata ar šādu nosaukumu.") # ja nekas netika atrasts
 
 def main():
     try:
-        while True:
-            print("\nMetodes:")
-            print("1. Kategorija")
-            print("2. Reitings")
-            print("3. Cena")
-            print("4. Atrast")
-            print("5. Beigt darbu")
-            choice = input("Izvēlieties darbību (1-5): ").strip()
+        while True: # cikls, kas darbojas līdz apstādināts
+            print("\nMetodes:") # izvada pieejamās darbības
+            print("1. Kategorija") # meklē pēc kategorijas
+            print("2. Reitings") # meklē pēc reitinga
+            print("3. Cena") # meklē pēc cenas
+            print("4. Atrast") # meklē pēc nosaukuma
+            print("5. Beigt darbu") # iziet no programmas (beidz ciklu)
+            choice = input("Izvēlieties darbību (1-5): ").strip() # lietotāja izvēle (1-5)
 
             if choice == '1':
-                search_by_category()
+                search_by_category() # izsauc meklēšanu pēc kategorijas
             elif choice == '2':
-                search_by_rating()
+                search_by_rating() # izsauc meklēšanu pēc reitinga
             elif choice == '3':
-                search_by_price()
+                search_by_price() # izsauc meklēšanu pēc cenas
             elif choice == '4':
-                search_by_name()
+                search_by_name() # izsauc meklēšanu pēc nosaukuma
             elif choice == '5':
-                print("Darbs pārtraukts.")
-                break
+                print("Darbs pārtraukts.") # lietotājs beidz darbu, izvadīts paziņojums
+                break # cikla beigas
             else:
-                print("Nederīga izvēle.")
+                print("Nederīga izvēle.") #ja izvēle neatbilst 1-5, izvada kļūdu
     except KeyboardInterrupt:
-        print("\nProgramma pārtraukta lietotāja pieprasījumā.")
+        print("\nProgramma pārtraukta lietotāja pieprasījumā.") # ja lietotājs nospiež Ctrl+C, pārtrauc
 
 if __name__ == "__main__":
     main()  # atgriežas pie pirmā, veidojot infinite loop, līdz tiek dota 5 komanda
