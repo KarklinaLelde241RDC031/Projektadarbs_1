@@ -1,4 +1,4 @@
-ort requests
+import requests
 from bs4 import BeautifulSoup
 
 BASE_URL = 'https://books.toscrape.com/'
