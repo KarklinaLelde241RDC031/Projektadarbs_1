@@ -44,19 +44,19 @@ Lietotājam ir jāievada attiecīgais skaitlis, kurš atbilst vēlamajai darbīb
 
 Ievadot kādu numuru, programma apmeklē attiecīgo kategorijas lapu un izvada visus grāmatu nosaukumus, kas attiecīgajā kategorijā ir iekļauti.
 ### Filtrēšana pēc reitinga
-Filtrēšana pēc reitinga ir izmantota, lai atrastu grāmatu, kura ir pēc iespējas labāk novērtēta (no 1 zvaigznes līdz 5 zvaigznēm). 
+Filtrēšana pēc reitinga ir izmantota, lai atrastu grāmatu, kura ir pēc iespējas labāk novērtēta (no 1 zvaigznes līdz 5 zvaigznēm), katrā kategorijā. Lietājs izvēlas kuru kategoriju vēlas apskatīt.
 
 Lietotājs ievada sev vēlamo zvaigžņu skaitu (1-5). Kad tas ir izdarīts, programma pārskata grāmatas, meklējot tās, kurām atbilst šis reitings, piemēram, 3 zvaigznes.
 
 Rezultātā, atbilstošie grāmatu nosaukumi tiek izvadīti uz ekrāna.
 ### Filtrēšana pēc cenas
-Izmantojam "Filtrēšanu pēc cenas", lai atrastu grāmatas, kuras maksā kādu konkrētu summu. 
+Izmantojam "Cena", lai atrastu grāmatas, kuras maksā kādu konkrētu summu. 
 
 Lietotājam ir dota iespēja ievadīt minimālo un maksimālo cenu, piemēram, 10 līdz 30. Programma pārskata grāmatas, analizējot katras cenas lauku. 
 
 Rezultātā programma izvada tikai to grāmatu nosaukumus, kuras ietilpst norādītajā cenu diapazonā.
 ### Meklēšana pēc nosaukuma
-Ar metodi "Meklēšana pēc nosaukuma" lietotājs var brīvi meklēt jebkuru grāmatu, ievadot tās nosaukumu. 
+Ar metodi "Atrast" lietotājs var brīvi meklēt jebkuru grāmatu, ievadot tās nosaukumu. 
 
 Programma ar paralēlo apstrādi pārbauda visas lapas, meklējot visus ierakstus, kas atbilst ievadītajam nosaukumam, kurš tiek meklēts. 
 
