@@ -1,4 +1,4 @@
-import requests
+ort requests
 from bs4 import BeautifulSoup
 
 BASE_URL = 'https://books.toscrape.com/'
@@ -13,6 +13,16 @@ def get_categories():
     links = category_section.find_all('a')[1:]
     categories = {i+1: (link.text.strip(), BASE_URL + link['href']) for i, link in enumerate(links)}
     return categories
+
+def rating_to_number(star_text):
+    ratings = {
+        'One': 1,
+        'Two': 2,
+        'Three': 3,
+        'Four': 4,
+        'Five': 5
+    }
+    return ratings.get(star_text, 0)
 
 def search_by_category():
     categories = get_categories()
@@ -34,16 +44,39 @@ def search_by_category():
     except ValueError:
         print("Ievadiet ciparu.")
 
+def search_by_rating():
+    try:
+        target_rating = int(input("Ievadiet reitingu (1-5): ").strip())
+        if target_rating not in range(1, 6):
+            raise ValueError
+    except ValueError:
+        print("Ievadiet skaitli no 1 līdz 5.")
+        return
+
+    print(f"\nGrāmatas ar {target_rating} zvaigznēm:")
+    url = BASE_URL + 'catalogue/page-1.html'
+    soup = get_soup(url)
+    books = soup.find_all('article', class_='product_pod')
+    for book in books:
+        rating_class = book.p['class'][1]
+        rating = rating_to_number(rating_class)
+        if rating == target_rating:
+            title = book.h3.a['title']
+            print(f" - {title}")
+
 def main():
     while True:
         print("\nMetodes:")
-        print("1. Kategorijas")
-        print("2. Beigt darbu")
-        choice = input("Izvēlieties darbību (1-2): ").strip()
+        print("1. Meklēt pēc kategorijas")
+        print("2. Meklēt pēc reitinga")
+        print("5. Beigt darbu")
+        choice = input("Izvēlieties darbību (1, 2, 5): ").strip()
 
         if choice == '1':
             search_by_category()
         elif choice == '2':
+            search_by_rating()
+        elif choice == '5':
             print("Darbs pārtraukts.")
             break
         else:
