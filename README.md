@@ -30,5 +30,6 @@ Programma sākas ar izvēlnes attēlošanu, kas ļauj lietotājam izvēlēties v
 + 3-Filtrēt grāmatas pēc cenas;
 + 4-Meklēt grāmatu pēc nosaukuma;
 + 5-Iziet no programmas
+
 Lietotājam ir jāievada attiecīgais skaitlis, kurš atbilst vēlamajai darbībai. Kad darbība ir izvēlēta, programma attiecīgi to izpilda.
 
