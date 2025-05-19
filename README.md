@@ -21,13 +21,28 @@ Mūsu programmā šī bibliotēka tiek izmantota, lai uzlabotu meklēšanas ātr
 ## Izmantotās datu struktūras
 Mūsu programmā ir izmantotas dažādas datu struktūras, kuras nodrošina ērtu informācijas apstrādi, meklēšanu un attēlošanu.
 ### Vārdnīca (dictionary)
+Šī datu struktūra ļauj lietotājam izvēlēties kategoriju pēc skaitļa. Turklāt tā nodrošina ātru un efektīvu piekļuvi konkrētai kategorijai, izmantojot ".get()". Vārdnīcas atslēga ir kategorijas numurs (int).
 
+Mūsu programmā šī datu struktūra ir izmantota funkcijā "get_categories()", lai saglabātu grāmatu kategorijas kopā ar to URL saiti.
 ### Saraksts (list)
+Datu struktūra "list" ļauj dinamiski pievienot datus (.append() vai .extend()). Saraksti arī ir labi piemēroti gadījumiem, kad rezultātus ir nepieciešams saglabāt noteiktā secībā, kā arī tos ir viegli filtrēt un apvienot vairākus sarakstus vienā.
 
+Saraksti ir izmantoti vairākos gadījumos, piemēram,:
++ books=[] - grāmatu meklēšana no lapām, piemēram, "get_books_from_category";
++ found_books=[] - uzkrāj meklēšanas rezultātus funkcijā "search_by_name()";
++ matches=[] - atrod konkrētās/atbilstošās grāmatas;
++ futures=[] - satur paralēlos izpildes uzdevumus (tiek pārmeklētas vairākas lapas/kategorijas vienlaicīgi).
 ### Simbolu virknes (str)
+Izmantojot simbolu virknes, teksta salīdzināšana ir daudz ērtāka, kā arī tās tiek izmantotas struktūru identificēšanai HTML dokumentā. 
 
+Mūsu prgrammā simbolu virknes ir izamntotas kategoriju nosaukumos un grāmatu virsrakstos, kā arī lietotāja ievadē, piemēram, kas tiek ievadīts vēlamais gramatas nosaukums.
 ### Skaitļi (int, float)
+Skaitļu izmantošana nodrošina precīzu skaitlisku salīdzināšanu un intervālu pārbaudi, piemēram, cenai vai reitingam. Protams, skaitļi mūsu programmā ir nepieciešami, lai interpretētu lietotāja izvēles.
 
+Skaitļi tiek izmantoti šādos gadījumos:
++ Kategorijas izvēles numuros (int);
++ Reitingos (int);
++ Cenu diapazona noteikšanā (float).
 ## Programmatūras izmantošanas metodes
 Mūsu programmatūra ir izstrādāta kā komandrindas interfeiss (CLI), kas nodrošina interaktīvu lietotāja saskarni datu iegūšanai no vietnes. Tas ir līdzeklis, lai mijiedarbotos ar programmatūru un izmantojot komandas, katra komanda ir formatēta kā teksta rindiņa. 
 ### Interaktīva izvēlne
