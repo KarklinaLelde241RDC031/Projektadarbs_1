@@ -2,20 +2,20 @@ import requests  # sūta HTTP pieprasījumu uz saiti
 from bs4 import BeautifulSoup  # parsē HTML
 import concurrent.futures  # paralēlai lappušu lādēšanai, ātrāka pārmeklēšana
 
-BASE_URL = 'https://books.toscrape.com/'  # saite kuru webscrape
+BASE_URL = 'https://books.toscrape.com/'  # saite kuru pārmeklēsim
 
-def get_soup(url):
-    res = requests.get(url)  # sūta pieprasījumu uz URL
+def get_soup(url): #funkica kas atgriež BeatifulSoup, katras lapas objektu
+    res = requests.get(url)  # sūta HTTP pieprasījumu uz URL
     return BeautifulSoup(res.text, 'html.parser')  # parse HTML izmantojot BeautifulSoup
 
-def get_categories():
-    soup = get_soup(BASE_URL)
+def get_categories(): #iegust visas grāmatu kategorijas no galvenās lapas
+    soup = get_soup(BASE_URL) #iegūst HTML no galvenās lapas
     category_section = soup.find('div', class_='side_categories')  # atrod saites kategoriju sadaļu
     links = category_section.find_all('a')[1:]  # izlaiž pirmo sadaļu "Books" un dodas uz kategorijām
     categories = {i + 1: (link.text.strip(), BASE_URL + link['href']) for i, link in enumerate(links)}  #
-    return categories
+    return categories #atgriež kategoriju sarakstu
 
-def rating_to_number(star_text):
+def rating_to_number(star_text): #konverģē reitingu no teksta uz skaitli
     ratings = {
         'One': 1,
         'Two': 2,
@@ -23,35 +23,35 @@ def rating_to_number(star_text):
         'Four': 4,
         'Five': 5
     }
-    return ratings.get(star_text, 0)  # atgriež reitingu skaitlī, ja nav atrasts – 0
+    return ratings.get(star_text, 0)  # atgriež reitingu skaitlī, ja nav atrasts atgriež 0
 
 def get_books_from_category(url):  # palīdzfunkcija, kas pārmeklē visas lappuses izvēlētajā kategorijā
-    books = []
-    page = 1
+    books = [] #tukšs sarakts,kur glabā grāmatas
+    page = 1 #sāk ar 1 lapu
     while True:
         if page == 1:
-            paged_url = url  # pirmajai lapai izmanto index.html
+            paged_url = url  # pirmajai lapai izmanto oriģinālo URL
         else:
-            paged_url = url.replace('index.html', f'page-{page}.html')  # nākamajām lapām izmanto page-2.html utt.
-        res = requests.get(paged_url)
+            paged_url = url.replace('index.html', f'page-{page}.html')  # aizstāj ar page-N.html, ja ir nākamā lapa
+        res = requests.get(paged_url) #pieprasa lapu
         if res.status_code != 200:
-            break
+            break #ja lapa nav atrasta, pārtrauc
         soup = BeautifulSoup(res.text, 'html.parser')
-        page_books = soup.find_all('article', class_='product_pod')  # atrod grāmatas lapā
+        page_books = soup.find_all('article', class_='product_pod')  # atrod visus grāmatu elementus lapā
         if not page_books:
-            break
-        books.extend(page_books)
-        page += 1
-    return books
+            break #ja nav vairāk grāmatu pārtrauc
+        books.extend(page_books) #pievieno sarakstam
+        page += 1 #atgriež visus atrastos grāmatas elementus
+    return books #atgriež visus atrastos grāmatu elementus
 
-def search_by_category():
+def search_by_category(): #funkcija, kas meklē pēc kategorijas
     categories = get_categories()
     print("\nPieejamās kategorijas:")  # izvadīt pieejamās kategorijas no vietnes
-    for i, (name, _) in categories.items():
+    for i, (name, _) in categories.items(): #izvada kategoriju sarakstu
         print(f"{i}. {name}")
     try:
         selected = int(input("\nIzvēlieties kategorijas numuru: ").strip())  # ievada izvēlēto kategoriju 1-50
-        name, url = categories.get(selected, (None, None))
+        name, url = categories.get(selected, (None, None)) #iegūs izvēlēto kategoriju
         if not name:
             print("Nederīgs numurs.")
             return
@@ -65,14 +65,14 @@ def search_by_category():
     except ValueError:
         print("Ievadiet ciparu.")  # kļūda, ja nav ievadīts cipars vai cipars, kas nav sarakstā
 
-def search_by_rating():
+def search_by_rating(): #meklē pēc reitinga
     categories = get_categories()
     print("\nPieejamās kategorijas:")
     for i, (name, _) in categories.items():
         print(f"{i}. {name}")
     try:
         selected = int(input("\nIzvēlieties kategorijas numuru: ").strip())  # izvēlies kategoriju
-        name, url = categories.get(selected, (None, None))
+        name, url = categories.get(selected, (None, None)) #iegust
         if not name:
             print("Nederīgs kategorijas numurs.")
             return
@@ -166,7 +166,7 @@ def main():
             print("2. Reitings")
             print("3. Cena")
             print("4. Atrast")
-            print("5. Beigt darbu")  
+            print("5. Beigt darbu")
             choice = input("Izvēlieties darbību (1-5): ").strip()
 
             if choice == '1':
