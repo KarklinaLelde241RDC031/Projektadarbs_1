@@ -32,4 +32,30 @@ Programma sākas ar izvēlnes attēlošanu, kas ļauj lietotājam izvēlēties v
 + 5-Iziet no programmas
 
 Lietotājam ir jāievada attiecīgais skaitlis, kurš atbilst vēlamajai darbībai. Kad darbība ir izvēlēta, programma attiecīgi to izpilda.
+### Meklēšana pēc kategorijas
+Šajā metodē lietotājam tiek parādīts visu pieejamo kategoriju saraksts ar attiecīgajiem kārtas numuriem. 
+
+Ievadot kādu numuru, programma apmeklē attiecīgo kategorijas lapu un izvada visus grāmatu nosaukumus, kas attiecīgajā kategorijā ir iekļauti.
+### Filtrēšana pēc reitinga
+Filtrēšana pēc reitinga ir izmantota, lai atrastu grāmatu, kura ir pēc iespējas labāk novērtēta (no 1 zvaigznes līdz 5 zvaigznēm). 
+
+Lietotājs ievada sev vēlamo zvaigžņu skaitu (1-5). Kad tas ir izdarīts, programma pārskata grāmatas, meklējot tās, kurām atbilst šis reitings, piemēram, 3 zvaigznes.
+
+Rezultātā, atbilstošie grāmatu nosaukumi tiek izvadīti uz ekrāna.
+### Filtrēšana pēc cenas
+Izmantojam "Filtrēšanu pēc cenas", lai atrastu grāmatas, kuras maksā kādu konkrētu summu. 
+
+Lietotājam ir dota iespēja ievadīt minimālo un maksimālo cenu, piemēram, 10 līdz 30. Programma pārskata grāmatas, analizējot katras cenas lauku. 
+
+Rezultātā programma izvada tikai to grāmatu nosaukumus, kuras ietilpst norādītajā cenu diapazonā.
+### Meklēšana pēc nosaukuma
+Ar metodi "Meklēšana pēc nosaukuma" lietotājs var brīvi meklēt jebkuru grāmatu, ievadot tās nosaukumu. 
+
+Programma ar paralēlo apstrādi pārbauda visas lapas, meklējot visus ierakstus, kas atbilst ievadītajam nosaukumam, kurš tiek meklēts. 
+
+Rezultāti tiek apkopoti un izvadīti kā saraksts.
+### Iziešana no programmas
+Mūsu programmai ir lietots "loop", kas nozīmē, ka programma turpina savu darbību līdz tā tiek apstādināta. To arī nodrošina šī metode.
+
+Ievadot izvēlni "5", tiek izvadīts paziņojums "Darbs pārtraukts." un programma beidz darbību.
 
