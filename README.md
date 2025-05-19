@@ -19,7 +19,14 @@ Mūsu programmā šī bibliotēka tiek izmantota, lai uzlabotu meklēšanas ātr
 
 
 ## Izmantotās datu struktūras
+Mūsu programmā ir izmantotas dažādas datu struktūras, kuras nodrošina ērtu informācijas apstrādi, meklēšanu un attēlošanu.
+### Vārdnīca (dictionary)
 
+### Saraksts (list)
+
+### Simbolu virknes (str)
+
+### Skaitļi (int, float)
 
 ## Programmatūras izmantošanas metodes
 Mūsu programmatūra ir izstrādāta kā komandrindas interfeiss (CLI), kas nodrošina interaktīvu lietotāja saskarni datu iegūšanai no vietnes. Tas ir līdzeklis, lai mijiedarbotos ar programmatūru un izmantojot komandas, katra komanda ir formatēta kā teksta rindiņa. 
