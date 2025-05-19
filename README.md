@@ -6,9 +6,20 @@ Izveidotā programma ļauj izvēlēties grāmatas pēc tās kategorijas/žanra, 
 
 ## Izmantotās bibliotēkas
 ### request
-
+Bibliotēka "request" ļauj ļoti vienkārši nosūtīt HTTP pieprasījumus, arī saņem HTML atbildes. Nav nepieciešams manuāli pievienot vaicājumu virknes.
+Savā programmā esam to iekļāvušas, jo tā ir vienkārša un stabila bibliotēka, kas mums atļauj ērti iegūt tīmekļa lapas saturu.
 
 ### BeautifulSoup
-
+"BeautifulSoup" ir bibliotēka, kas atvieglo informācijas atlasīšanu no tīmekļa lapām, piemēram, ar tādām metodēm kā "find", "find_all".
+Mēs to izmantojam, jo tā ļauj viegli atrast un apstrādāt datus, piemēram, virsrakstus, cenas, kategorijas utt.
 
 ### concurrent.futures
+Galvenā bibliotēkas "concurrent.futures" loma ir nodrošināt vairākpavedienu darbību-paralēlu lapu pārmeklēšanu. 
+Mūsu programmā šī bibliotēka tiek izmantota, lai uzlabotu meklēšanas ātrumu, jo ir nepieciešams veikt grāmatu meklēšanu vairākās lapās.
+
+
+## Izmantotās datu struktūras
+
+
+## Programmatūras izmantošanas metodes
+
