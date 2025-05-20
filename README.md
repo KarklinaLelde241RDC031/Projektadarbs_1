@@ -1,4 +1,5 @@
 # Projektadarbs_1
+**Luīze Simsone, Lelde Kārkliņa**
 ## Projekta uzdevums
 Projekta uzdevums ir izveidot Webscraping programmatūru, kas ļauj efektīvi atlasīt datus no kādas izvēlētas interneta vietnes. 
 Mūsu izvēlētā mājaslapa ir https://books.toscrape.com/, jo šī saite ir piemērota Webscraping programmatūras veidošanai un tā nesagādāja liekas problēmas ar piekļuves iegūšanu. Attiecīgi tieši mūsu uzdevums un mērķis bija izveidot grāmatu meklētāja programmu, kura ļauj atlasīt grāmatas pēc noteiktiem nosacījumiem. 
